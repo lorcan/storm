@@ -15,7 +15,9 @@ public class ReducerValueUpdater implements ValueUpdater<Object> {
 
     @Override
     public Object update(Object stored) {
-        Object ret = stored;
+      /* Is this correct?
+       * If stored becomes null on an earlier reduction are we re-initialising? */
+        Object ret = (stored == null) ? this.agg.init() : stored;
         for(TridentTuple t: tuples) {
            ret =  this.agg.reduce(ret, t);
         }
